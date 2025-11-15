@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title th:text="${isEdit} ? 'Edit Expense' : 'Add New Expense'">
+      Expense Form
+    </title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+  </head>
+  <body>
+    <div class="container form-container">
+      <!-- Header -->
+      <header>
+        <h1 th:text="${isEdit} ? '✏️ Edit Expense' : '➕ Add New Expense'">
+          Add New Expense
+        </h1>
+        <a th:href="@{/expenses/list}" class="btn btn-link">← Back to List</a>
+      </header>
+
+      <!-- Form -->
+      <div class="form-wrapper">
+        <form
+          th:action="${isEdit} ? @{/expenses/edit/{id}(id=${expenseId})} : @{/expenses/new}"
+          th:object="${expense}"
+          method="post"
+          class="expense-form"
+        >
+          <!-- Description Field -->
+          <div class="form-group">
+            <label for="description"
+              >Description <span class="required">*</span></label
+            >
+            <input
+              type="text"
+              id="description"
+              th:field="*{description}"
+              placeholder="e.g., Grocery Shopping, Fuel"
+              class="form-control"
+              required
+            />
+            <span
+              class="error"
+              th:if="${#fields.hasErrors('description')}"
+              th:errors="*{description}"
+            >
+              Description error
+            </span>
+          </div>
+
+          <!-- Amount Field -->
+          <div class="form-group">
+            <label for="amount"
+              >Amount ($) <span class="required">*</span></label
+            >
+            <input
+              type="number"
+              id="amount"
+              th:field="*{amount}"
+              placeholder="0.00"
+              step="0.01"
+              min="0.01"
+              class="form-control"
+              required
+            />
+            <span
+              class="error"
+              th:if="${#fields.hasErrors('amount')}"
+              th:errors="*{amount}"
+            >
+              Amount error
+            </span>
+          </div>
+
+          <!-- Category Field -->
+          <div class="form-group">
+            <label for="category"
+              >Category <span class="required">*</span></label
+            >
+            <select
+              id="category"
+              th:field="*{category}"
+              class="form-control"
+              required
+            >
+              <option value="">-- Select Category --</option>
+              <option value="Food">Food</option>
+              <option value="Transport">Transport</option>
+              <option value="Entertainment">Entertainment</option>
+              <option value="Shopping">Shopping</option>
+              <option value="Bills">Bills</option>
+              <option value="Healthcare">Healthcare</option>
+              <option value="Education">Education</option>
+              <option value="Other">Other</option>
+            </select>
+            <span
+              class="error"
+              th:if="${#fields.hasErrors('category')}"
+              th:errors="*{category}"
+            >
+              Category error
+            </span>
+          </div>
+
+          <!-- Expense Date Field -->
+          <div class="form-group">
+            <label for="expenseDate"
+              >Expense Date <span class="required">*</span></label
+            >
+            <input
+              type="datetime-local"
+              id="expenseDate"
+              th:field="*{expenseDate}"
+              class="form-control"
+              required
+            />
+            <span
+              class="error"
+              th:if="${#fields.hasErrors('expenseDate')}"
+              th:errors="*{expenseDate}"
+            >
+              Date error
+            </span>
+          </div>
+
+          <!-- Form Actions -->
+          <div class="form-actions">
+            <button type="submit" class="btn btn-primary">
+              <span th:text="${isEdit} ? '💾 Update Expense' : '➕ Add Expense'"
+                >Submit</span
+              >
+            </button>
+            <a th:href="@{/expenses/list}" class="btn btn-secondary">Cancel</a>
+          </div>
+        </form>
+      </div>
+
+      <!-- Help Text -->
+      <div class="help-text">
+        <p><strong>Tips:</strong></p>
+        <ul>
+          <li>
+            All fields marked with <span class="required">*</span> are required
+          </li>
+          <li>Amount should be a positive number (e.g., 50.00)</li>
+          <li>Choose the most appropriate category for your expense</li>
+          <li>
+            Expense date can be in the past or present, but not in the future
+          </li>
+        </ul>
+      </div>
+
+      <!-- Footer -->
+      <footer>
+        <p>&copy; 2024 Expense Tracker | Built with Spring Boot & Thymeleaf</p>
+      </footer>
+    </div>
+  </body>
+</html>
