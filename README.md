@@ -237,5 +237,4 @@ The application follows a **layered architecture**:
 **Puneet Verma**
 
 - GitHub: [@PuneetVerma04](https://github.com/PuneetVerma04)
-- Email: puneetverma04@example.com
 
