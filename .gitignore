@@ -51,3 +51,6 @@ application-sqlserver.properties
 ### OS ###
 .DS_Store
 Thumbs.db
+IMPLEMENTATION_SUMMARY.md
+QUICKSTART.md
+SQL_SERVER_SETUP.md
