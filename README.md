@@ -30,33 +30,6 @@ A full-stack Spring Boot application for tracking personal expenses with a moder
 - 🔧 Profile-based configuration
 - 🎭 Layered architecture (Controller → Service → Repository)
 
-## 🚀 Quick Start
-
-### Prerequisites
-
-- Java 21 or higher
-- Maven 3.6+ (or use included Maven wrapper)
-- SQL Server (optional - H2 included for testing)
-
-### Clone & Run
-
-```bash
-# Clone the repository
-git clone https://github.com/PuneetVerma04/expense-tracker.git
-cd expense-tracker
-
-# Run with H2 in-memory database (recommended for testing)
-./mvnw spring-boot:run
-```
-
-### Access the Application
-
-- **Web Interface**: http://localhost:8080/expenses/list
-- **REST API Base URL**: http://localhost:8080/api/expenses
-- **H2 Console**: http://localhost:8080/h2-console
-  - JDBC URL: `jdbc:h2:mem:testdb`
-  - Username: `sa`
-  - Password: _(leave empty)_
 
 ## 📖 API Documentation
 
@@ -239,19 +212,6 @@ The application follows a **layered architecture**:
 - Service Pattern for business logic
 - Exception Handling with @ControllerAdvice
 
-## 📝 Categories Available
-
-The application supports the following expense categories:
-
-- 🍔 Food
-- 🚗 Transport
-- 🎬 Entertainment
-- 🛍️ Shopping
-- 💡 Bills
-- 🏥 Healthcare
-- 📚 Education
-- 📦 Other
-
 ## 🔧 Configuration Profiles
 
 | Profile     | Database     | Use Case              |
@@ -260,11 +220,6 @@ The application supports the following expense categories:
 | `sqlserver` | SQL Server   | Production            |
 | `test`      | H2 In-Memory | Automated Tests       |
 
-## 📚 Additional Documentation
-
-- [IMPLEMENTATION_SUMMARY.md](IMPLEMENTATION_SUMMARY.md) - Detailed implementation guide
-- [QUICKSTART.md](QUICKSTART.md) - Quick reference guide
-- [SQL_SERVER_SETUP.md](SQL_SERVER_SETUP.md) - SQL Server setup instructions
 
 ## 🛠️ Tech Stack
 
@@ -277,30 +232,6 @@ The application supports the following expense categories:
 - **Validation:** Jakarta Validation API
 - **Connection Pool:** HikariCP
 
-## 🚀 Future Enhancements
-
-- [ ] User authentication with Spring Security
-- [ ] Budget tracking and alerts
-- [ ] Export to CSV/PDF
-- [ ] Data visualization with charts
-- [ ] Recurring expense support
-- [ ] Multi-currency support
-- [ ] Mobile app integration
-
-## 🤝 Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
 ## 👨‍💻 Author
 
 **Puneet Verma**
@@ -308,12 +239,3 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - GitHub: [@PuneetVerma04](https://github.com/PuneetVerma04)
 - Email: puneetverma04@example.com
 
-## 🙏 Acknowledgments
-
-- Spring Boot team for the amazing framework
-- Thymeleaf for the powerful template engine
-- All contributors who help improve this project
-
----
-
-⭐ **Star this repository if you find it helpful!**
