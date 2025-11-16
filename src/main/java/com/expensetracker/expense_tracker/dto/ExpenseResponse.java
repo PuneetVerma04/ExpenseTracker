@@ -18,9 +18,14 @@ public class ExpenseResponse {
     private Long id;
 
     /**
-     * Description of what the expense was for
+     * Transaction date - when the actual expense occurred
      */
-    private String description;
+    private LocalDateTime transactionDate;
+
+    /**
+     * Name of the expense item
+     */
+    private String name;
 
     /**
      * Amount of money spent
@@ -28,19 +33,24 @@ public class ExpenseResponse {
     private BigDecimal amount;
 
     /**
+     * When this expense record was entered in the system
+     */
+    private LocalDateTime enteredDate;
+
+    /**
+     * Additional description or notes (optional)
+     */
+    private String description;
+
+    /**
      * Category classification of the expense
      */
     private String category;
 
     /**
-     * When the expense occurred
+     * Tag for personal categorization
      */
-    private LocalDateTime expenseDate;
-
-    /**
-     * When this expense record was created in the system
-     */
-    private LocalDateTime createdAt;
+    private String tag;
 
     /**
      * When this expense record was last updated
@@ -51,14 +61,16 @@ public class ExpenseResponse {
     public ExpenseResponse() {
     }
 
-    public ExpenseResponse(Long id, String description, BigDecimal amount, String category,
-            LocalDateTime expenseDate, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public ExpenseResponse(Long id, LocalDateTime transactionDate, String name, BigDecimal amount,
+            LocalDateTime enteredDate, String description, String category, String tag, LocalDateTime updatedAt) {
         this.id = id;
-        this.description = description;
+        this.transactionDate = transactionDate;
+        this.name = name;
         this.amount = amount;
+        this.enteredDate = enteredDate;
+        this.description = description;
         this.category = category;
-        this.expenseDate = expenseDate;
-        this.createdAt = createdAt;
+        this.tag = tag;
         this.updatedAt = updatedAt;
     }
 
@@ -73,11 +85,13 @@ public class ExpenseResponse {
     public static ExpenseResponse fromEntity(Expense expense) {
         return new ExpenseResponse(
                 expense.getId(),
-                expense.getDescription(),
+                expense.getTransactionDate(),
+                expense.getName(),
                 expense.getAmount(),
+                expense.getEnteredDate(),
+                expense.getDescription(),
                 expense.getCategory(),
-                expense.getExpenseDate(),
-                expense.getCreatedAt(),
+                expense.getTag(),
                 expense.getUpdatedAt());
     }
 
@@ -90,12 +104,20 @@ public class ExpenseResponse {
         this.id = id;
     }
 
-    public String getDescription() {
-        return description;
+    public LocalDateTime getTransactionDate() {
+        return transactionDate;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setTransactionDate(LocalDateTime transactionDate) {
+        this.transactionDate = transactionDate;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public BigDecimal getAmount() {
@@ -106,6 +128,22 @@ public class ExpenseResponse {
         this.amount = amount;
     }
 
+    public LocalDateTime getEnteredDate() {
+        return enteredDate;
+    }
+
+    public void setEnteredDate(LocalDateTime enteredDate) {
+        this.enteredDate = enteredDate;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     public String getCategory() {
         return category;
     }
@@ -114,20 +152,12 @@ public class ExpenseResponse {
         this.category = category;
     }
 
-    public LocalDateTime getExpenseDate() {
-        return expenseDate;
+    public String getTag() {
+        return tag;
     }
 
-    public void setExpenseDate(LocalDateTime expenseDate) {
-        this.expenseDate = expenseDate;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
+    public void setTag(String tag) {
+        this.tag = tag;
     }
 
     public LocalDateTime getUpdatedAt() {
@@ -142,11 +172,13 @@ public class ExpenseResponse {
     public String toString() {
         return "ExpenseResponse{" +
                 "id=" + id +
-                ", description='" + description + '\'' +
+                ", transactionDate=" + transactionDate +
+                ", name='" + name + '\'' +
                 ", amount=" + amount +
+                ", enteredDate=" + enteredDate +
+                ", description='" + description + '\'' +
                 ", category='" + category + '\'' +
-                ", expenseDate=" + expenseDate +
-                ", createdAt=" + createdAt +
+                ", tag='" + tag + '\'' +
                 ", updatedAt=" + updatedAt +
                 '}';
     }

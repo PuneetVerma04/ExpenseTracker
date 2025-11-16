@@ -12,12 +12,20 @@ import java.time.LocalDateTime;
 public class ExpenseRequest {
 
     /**
-     * Description of the expense (e.g., "Grocery Shopping", "Fuel")
+     * Transaction date - when the actual expense/transaction occurred
+     * Must not be in the future
+     */
+    @NotNull(message = "Transaction date is required")
+    @PastOrPresent(message = "Transaction date cannot be in the future")
+    private LocalDateTime transactionDate;
+
+    /**
+     * Name of the expense item (e.g., "Grocery Shopping", "Fuel")
      * Must not be null or empty
      */
-    @NotBlank(message = "Description is required")
-    @Size(max = 255, message = "Description must not exceed 255 characters")
-    private String description;
+    @NotBlank(message = "Name is required")
+    @Size(max = 255, message = "Name must not exceed 255 characters")
+    private String name;
 
     /**
      * Amount spent on this expense
@@ -29,6 +37,12 @@ public class ExpenseRequest {
     private BigDecimal amount;
 
     /**
+     * Additional description or notes about the expense (optional)
+     */
+    @Size(max = 500, message = "Description must not exceed 500 characters")
+    private String description;
+
+    /**
      * Category of the expense (e.g., "Food", "Transport", "Entertainment")
      * Must not be null or empty
      */
@@ -37,31 +51,48 @@ public class ExpenseRequest {
     private String category;
 
     /**
-     * Date and time when the expense occurred
-     * Must not be in the future
+     * Tag for personal categorization (e.g., "Personal", "Business", "Family")
+     * Optional field from Excel sections
      */
-    @NotNull(message = "Expense date is required")
-    @PastOrPresent(message = "Expense date cannot be in the future")
-    private LocalDateTime expenseDate;
+    @Size(max = 100, message = "Tag must not exceed 100 characters")
+    private String tag;
 
     // Constructors
     public ExpenseRequest() {
     }
 
-    public ExpenseRequest(String description, BigDecimal amount, String category, LocalDateTime expenseDate) {
-        this.description = description;
+    public ExpenseRequest(LocalDateTime transactionDate, String name, BigDecimal amount, String category) {
+        this.transactionDate = transactionDate;
+        this.name = name;
         this.amount = amount;
         this.category = category;
-        this.expenseDate = expenseDate;
+    }
+
+    public ExpenseRequest(LocalDateTime transactionDate, String name, BigDecimal amount,
+            String description, String category, String tag) {
+        this.transactionDate = transactionDate;
+        this.name = name;
+        this.amount = amount;
+        this.description = description;
+        this.category = category;
+        this.tag = tag;
     }
 
     // Getters and Setters
-    public String getDescription() {
-        return description;
+    public LocalDateTime getTransactionDate() {
+        return transactionDate;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setTransactionDate(LocalDateTime transactionDate) {
+        this.transactionDate = transactionDate;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public BigDecimal getAmount() {
@@ -72,6 +103,14 @@ public class ExpenseRequest {
         this.amount = amount;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     public String getCategory() {
         return category;
     }
@@ -80,21 +119,23 @@ public class ExpenseRequest {
         this.category = category;
     }
 
-    public LocalDateTime getExpenseDate() {
-        return expenseDate;
+    public String getTag() {
+        return tag;
     }
 
-    public void setExpenseDate(LocalDateTime expenseDate) {
-        this.expenseDate = expenseDate;
+    public void setTag(String tag) {
+        this.tag = tag;
     }
 
     @Override
     public String toString() {
         return "ExpenseRequest{" +
-                "description='" + description + '\'' +
+                "transactionDate=" + transactionDate +
+                ", name='" + name + '\'' +
                 ", amount=" + amount +
+                ", description='" + description + '\'' +
                 ", category='" + category + '\'' +
-                ", expenseDate=" + expenseDate +
+                ", tag='" + tag + '\'' +
                 '}';
     }
 }
