@@ -76,10 +76,12 @@ public class ExpenseService {
 
         // Convert DTO to entity
         Expense expense = new Expense();
-        expense.setDescription(request.getDescription());
+        expense.setTransactionDate(request.getTransactionDate());
+        expense.setName(request.getName());
         expense.setAmount(request.getAmount());
+        expense.setDescription(request.getDescription());
         expense.setCategory(request.getCategory());
-        expense.setExpenseDate(request.getExpenseDate());
+        expense.setTag(request.getTag());
 
         // Save to database (audit fields set by @PrePersist)
         Expense savedExpense = expenseRepository.save(expense);
@@ -105,10 +107,12 @@ public class ExpenseService {
         validateExpenseRequest(request);
 
         // Update fields
-        expense.setDescription(request.getDescription());
+        expense.setTransactionDate(request.getTransactionDate());
+        expense.setName(request.getName());
         expense.setAmount(request.getAmount());
+        expense.setDescription(request.getDescription());
         expense.setCategory(request.getCategory());
-        expense.setExpenseDate(request.getExpenseDate());
+        expense.setTag(request.getTag());
 
         // Save changes (updatedAt set by @PreUpdate)
         Expense updatedExpense = expenseRepository.save(expense);
@@ -132,7 +136,7 @@ public class ExpenseService {
     }
 
     /**
-     * Searches for expenses by description (case-insensitive partial match)
+     * Searches for expenses by name (case-insensitive partial match)
      *
      * @param keyword The search keyword
      * @return List of matching expenses as ExpenseResponse DTOs
@@ -143,7 +147,7 @@ public class ExpenseService {
             return getAllExpenses();
         }
 
-        return expenseRepository.findByDescriptionContainingIgnoreCase(keyword)
+        return expenseRepository.findByNameContainingIgnoreCase(keyword)
                 .stream()
                 .map(ExpenseResponse::fromEntity)
                 .collect(Collectors.toList());
@@ -172,7 +176,7 @@ public class ExpenseService {
      */
     @Transactional(readOnly = true)
     public List<ExpenseResponse> getExpensesByDateRange(LocalDateTime startDate, LocalDateTime endDate) {
-        return expenseRepository.findByExpenseDateBetween(startDate, endDate)
+        return expenseRepository.findByTransactionDateBetween(startDate, endDate)
                 .stream()
                 .map(ExpenseResponse::fromEntity)
                 .collect(Collectors.toList());
@@ -215,9 +219,9 @@ public class ExpenseService {
      * @throws InvalidExpenseException if validation fails
      */
     private void validateExpenseRequest(ExpenseRequest request) {
-        // Check if description is meaningful (not just whitespace)
-        if (request.getDescription() != null && request.getDescription().trim().isEmpty()) {
-            throw new InvalidExpenseException("Description cannot be empty or just whitespace");
+        // Check if name is meaningful (not just whitespace)
+        if (request.getName() != null && request.getName().trim().isEmpty()) {
+            throw new InvalidExpenseException("Name cannot be empty or just whitespace");
         }
 
         // Check if category is meaningful
