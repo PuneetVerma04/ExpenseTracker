@@ -34,7 +34,7 @@ public interface ExpenseRepository extends JpaRepository<Expense, Long> {
      * @param endDate   End of the date range
      * @return List of expenses between the two dates
      */
-    List<Expense> findByExpenseDateBetween(LocalDateTime startDate, LocalDateTime endDate);
+    List<Expense> findByTransactionDateBetween(LocalDateTime startDate, LocalDateTime endDate);
 
     /**
      * Finds expenses with amount greater than the specified threshold
@@ -56,12 +56,12 @@ public interface ExpenseRepository extends JpaRepository<Expense, Long> {
     List<Object[]> getTotalByCategory();
 
     /**
-     * Searches for expenses by description with case-insensitive partial matching
+     * Searches for expenses by name with case-insensitive partial matching
      * Uses Spring Data JPA method naming with ContainingIgnoreCase keywords
      *
-     * @param keyword The search keyword to look for in descriptions
-     * @return List of expenses whose description contains the keyword
+     * @param keyword The search keyword to look for in expense names
+     * @return List of expenses whose name contains the keyword
      *         (case-insensitive)
      */
-    List<Expense> findByDescriptionContainingIgnoreCase(String keyword);
+    List<Expense> findByNameContainingIgnoreCase(String keyword);
 }
