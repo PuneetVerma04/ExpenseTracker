@@ -135,10 +135,12 @@ public class WebController {
 
             // Convert ExpenseResponse to ExpenseRequest for form binding
             ExpenseRequest expenseRequest = new ExpenseRequest();
-            expenseRequest.setDescription(expense.getDescription());
+            expenseRequest.setTransactionDate(expense.getTransactionDate());
+            expenseRequest.setName(expense.getName());
             expenseRequest.setAmount(expense.getAmount());
+            expenseRequest.setDescription(expense.getDescription());
             expenseRequest.setCategory(expense.getCategory());
-            expenseRequest.setExpenseDate(expense.getExpenseDate());
+            expenseRequest.setTag(expense.getTag());
 
             model.addAttribute("expense", expenseRequest);
             model.addAttribute("expenseId", id);
