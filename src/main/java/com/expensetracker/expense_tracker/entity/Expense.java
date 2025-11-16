@@ -14,18 +14,25 @@ import java.time.LocalDateTime;
 public class Expense {
 
     /**
-     * Primary key - auto-generated ID for each expense
+     * Primary key - auto-generated ID for each expense (SerialNo)
      */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     /**
-     * Description of what the expense was for (e.g., "Grocery Shopping", "Fuel")
-     * Required field - cannot be null in database
+     * Transaction date - when the actual expense/transaction occurred
+     * This is the date from your Excel file
+     */
+    @Column(name = "transaction_date", nullable = false)
+    private LocalDateTime transactionDate;
+
+    /**
+     * Name of the expense item (e.g., "Grocery Shopping", "Fuel")
+     * This is the "Item" column from your Excel
      */
     @Column(nullable = false)
-    private String description;
+    private String name;
 
     /**
      * Amount spent on this expense
@@ -35,26 +42,34 @@ public class Expense {
     private BigDecimal amount;
 
     /**
+     * Entered date - timestamp when this record was first created in the database
+     * Automatically set by @PrePersist lifecycle callback
+     */
+    @Column(name = "entered_date")
+    private LocalDateTime enteredDate;
+
+    /**
+     * Additional description or notes about the expense (optional)
+     * Can provide more context beyond just the name
+     */
+    @Column(length = 500)
+    private String description;
+
+    /**
      * Category classification for the expense (e.g., "Food", "Transport",
      * "Entertainment")
-     * Required field - used for grouping and filtering expenses
+     * Used for grouping and filtering expenses
      */
     @Column(nullable = false)
     private String category;
 
     /**
-     * Date and time when the expense occurred
-     * Required field - can be different from when the record was created
+     * Tag field - for your personal categorization from Excel
+     * This represents the separate category areas in your Excel file
+     * Examples: "Personal", "Business", "Family", etc.
      */
-    @Column(name = "expense_date", nullable = false)
-    private LocalDateTime expenseDate;
-
-    /**
-     * Timestamp when this record was first created in the database
-     * Automatically set by @PrePersist lifecycle callback
-     */
-    @Column(name = "created_at")
-    private LocalDateTime createdAt;
+    @Column
+    private String tag;
 
     /**
      * Timestamp when this record was last updated
@@ -74,27 +89,27 @@ public class Expense {
     /**
      * Constructor for creating a new expense with all required fields
      *
-     * @param description What the expense was for
-     * @param amount      How much was spent
-     * @param category    Category classification
-     * @param expenseDate When the expense occurred
+     * @param name            Name/Item of the expense
+     * @param amount          How much was spent
+     * @param category        Category classification
+     * @param transactionDate When the expense occurred
      */
-    public Expense(String description, BigDecimal amount, String category, LocalDateTime expenseDate) {
-        this.description = description;
+    public Expense(String name, BigDecimal amount, String category, LocalDateTime transactionDate) {
+        this.name = name;
         this.amount = amount;
         this.category = category;
-        this.expenseDate = expenseDate;
+        this.transactionDate = transactionDate;
     }
 
     // Lifecycle callbacks
 
     /**
      * JPA lifecycle callback - automatically called before persisting a new expense
-     * Sets both createdAt and updatedAt to current timestamp
+     * Sets enteredDate and updatedAt to current timestamp
      */
     @PrePersist
     protected void onCreate() {
-        createdAt = LocalDateTime.now();
+        enteredDate = LocalDateTime.now();
         updatedAt = LocalDateTime.now();
     }
 
@@ -117,12 +132,20 @@ public class Expense {
         this.id = id;
     }
 
-    public String getDescription() {
-        return description;
+    public LocalDateTime getTransactionDate() {
+        return transactionDate;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setTransactionDate(LocalDateTime transactionDate) {
+        this.transactionDate = transactionDate;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public BigDecimal getAmount() {
@@ -133,6 +156,22 @@ public class Expense {
         this.amount = amount;
     }
 
+    public LocalDateTime getEnteredDate() {
+        return enteredDate;
+    }
+
+    public void setEnteredDate(LocalDateTime enteredDate) {
+        this.enteredDate = enteredDate;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     public String getCategory() {
         return category;
     }
@@ -141,20 +180,12 @@ public class Expense {
         this.category = category;
     }
 
-    public LocalDateTime getExpenseDate() {
-        return expenseDate;
+    public String getTag() {
+        return tag;
     }
 
-    public void setExpenseDate(LocalDateTime expenseDate) {
-        this.expenseDate = expenseDate;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
+    public void setTag(String tag) {
+        this.tag = tag;
     }
 
     public LocalDateTime getUpdatedAt() {
@@ -169,11 +200,13 @@ public class Expense {
     public String toString() {
         return "Expense{" +
                 "id=" + id +
-                ", description='" + description + '\'' +
+                ", transactionDate=" + transactionDate +
+                ", name='" + name + '\'' +
                 ", amount=" + amount +
+                ", enteredDate=" + enteredDate +
+                ", description='" + description + '\'' +
                 ", category='" + category + '\'' +
-                ", expenseDate=" + expenseDate +
-                ", createdAt=" + createdAt +
+                ", tag='" + tag + '\'' +
                 ", updatedAt=" + updatedAt +
                 '}';
     }
