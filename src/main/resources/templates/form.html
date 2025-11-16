@@ -26,25 +26,44 @@
           method="post"
           class="expense-form"
         >
-          <!-- Description Field -->
+          <!-- Transaction Date Field -->
           <div class="form-group">
-            <label for="description"
-              >Description <span class="required">*</span></label
+            <label for="transactionDate"
+              >Transaction Date <span class="required">*</span></label
             >
             <input
+              type="datetime-local"
+              id="transactionDate"
+              th:field="*{transactionDate}"
+              class="form-control"
+              required
+            />
+            <span
+              class="error"
+              th:if="${#fields.hasErrors('transactionDate')}"
+              th:errors="*{transactionDate}"
+            >
+              Date error
+            </span>
+          </div>
+
+          <!-- Name Field -->
+          <div class="form-group">
+            <label for="name">Name <span class="required">*</span></label>
+            <input
               type="text"
-              id="description"
-              th:field="*{description}"
+              id="name"
+              th:field="*{name}"
               placeholder="e.g., Grocery Shopping, Fuel"
               class="form-control"
               required
             />
             <span
               class="error"
-              th:if="${#fields.hasErrors('description')}"
-              th:errors="*{description}"
+              th:if="${#fields.hasErrors('name')}"
+              th:errors="*{name}"
             >
-              Description error
+              Name error
             </span>
           </div>
 
@@ -69,6 +88,25 @@
               th:errors="*{amount}"
             >
               Amount error
+            </span>
+          </div>
+
+          <!-- Description Field (Optional) -->
+          <div class="form-group">
+            <label for="description">Description (Optional)</label>
+            <textarea
+              id="description"
+              th:field="*{description}"
+              placeholder="Additional notes or details..."
+              class="form-control"
+              rows="3"
+            ></textarea>
+            <span
+              class="error"
+              th:if="${#fields.hasErrors('description')}"
+              th:errors="*{description}"
+            >
+              Description error
             </span>
           </div>
 
@@ -102,24 +140,22 @@
             </span>
           </div>
 
-          <!-- Expense Date Field -->
+          <!-- Tag Field (Optional) -->
           <div class="form-group">
-            <label for="expenseDate"
-              >Expense Date <span class="required">*</span></label
-            >
+            <label for="tag">Tag (Optional)</label>
             <input
-              type="datetime-local"
-              id="expenseDate"
-              th:field="*{expenseDate}"
+              type="text"
+              id="tag"
+              th:field="*{tag}"
+              placeholder="e.g., Personal, Business, Family"
               class="form-control"
-              required
             />
             <span
               class="error"
-              th:if="${#fields.hasErrors('expenseDate')}"
-              th:errors="*{expenseDate}"
+              th:if="${#fields.hasErrors('tag')}"
+              th:errors="*{tag}"
             >
-              Date error
+              Tag error
             </span>
           </div>
 
@@ -142,10 +178,17 @@
           <li>
             All fields marked with <span class="required">*</span> are required
           </li>
-          <li>Amount should be a positive number (e.g., 50.00)</li>
-          <li>Choose the most appropriate category for your expense</li>
           <li>
-            Expense date can be in the past or present, but not in the future
+            Transaction date: When the expense actually occurred (not future)
+          </li>
+          <li>
+            Name: A brief title for the expense (e.g., "Grocery Shopping")
+          </li>
+          <li>Amount: Must be a positive number (e.g., 50.00)</li>
+          <li>Description: Optional field for additional notes</li>
+          <li>Category: Type of expense for filtering</li>
+          <li>
+            Tag: Optional personal categorization (e.g., "Personal", "Business")
           </li>
         </ul>
       </div>

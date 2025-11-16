@@ -109,17 +109,23 @@
           <thead>
             <tr>
               <th>ID</th>
-              <th>Description</th>
+              <th>Transaction Date</th>
+              <th>Name</th>
               <th>Amount</th>
               <th>Category</th>
-              <th>Expense Date</th>
+              <th>Tag</th>
               <th>Actions</th>
             </tr>
           </thead>
           <tbody>
             <tr th:each="expense : ${expenses}">
               <td th:text="${expense.id}">1</td>
-              <td th:text="${expense.description}">Grocery Shopping</td>
+              <td
+                th:text="${#temporals.format(expense.transactionDate, 'MMM dd, yyyy HH:mm')}"
+              >
+                Jan 01, 2024 12:00
+              </td>
+              <td th:text="${expense.name}">Grocery Shopping</td>
               <td
                 class="amount"
                 th:text="'$' + ${#numbers.formatDecimal(expense.amount, 1, 2)}"
@@ -134,10 +140,12 @@
                   >Food</span
                 >
               </td>
-              <td
-                th:text="${#temporals.format(expense.expenseDate, 'MMM dd, yyyy HH:mm')}"
-              >
-                Jan 01, 2024 12:00
+              <td>
+                <span
+                  class="badge"
+                  th:text="${expense.tag != null ? expense.tag : 'N/A'}"
+                  >Personal</span
+                >
               </td>
               <td class="actions">
                 <a
